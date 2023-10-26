@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <div
-      style={{ width: "100%", height: "250px", color:'white',overflow:'hidden' }}
-      className="d-flex flex-column bg-primary justify-content-center align-items-center mt-5"
+      style={{ width: "100%", height: "300px", color:'white',overflow:'hidden' }}
+      className="d-flex flex-column bg-success justify-content-center align-items-center mt-5"
     >
       <div className="footer-content flex-wrap d-flex justify-content-evenly w-100">
         <div className="website " style={{width:'25rem',color:'white'}}>
@@ -17,7 +17,7 @@ export default function Footer() {
               style={{ textDecoration: "none", color: "white" }}
             >
               <i className="fa-solid fa-cloud-arrow-up"></i>
-              {""}E Cart
+              {""}Project Fair
             </Link>
           </h2>
           <p>
@@ -87,7 +87,7 @@ export default function Footer() {
             />{" "}
             <button className="btn btn-warning" style={{width:'50px'}}><i class="fa-solid fa-circle-arrow-right"></i></button>
           </div>
-          <div className="d-flex justify-content-evenly mt-3">
+          <div className="d-flex justify-content-evenly mt-2">
             <Link
               to={"/"}
               className=""
@@ -119,7 +119,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <p>Copyright © 2023 Media Player. Built with React.</p>
+      <p>Copyright © 2023 Project Fair. Built with React.</p>
     </div>
   );
 }
