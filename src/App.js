@@ -1,19 +1,19 @@
 import {Routes, Route} from 'react-router-dom';
 import './App.css';
 import Home from './Pages/Home';
-import Login from './Pages/Login';
-import Register from './Pages/Register';
+
 import Dashboard from './Pages/Dashboard';
 import Projects from './Pages/Projects';
 import Footer from './Components/Footer';
+import Authen from './Components/Authen';
 
 function App() {
   return (
     <div>
       <Routes>
         <Route path='/' element={<Home/>} />
-        <Route path='/login' element={<Login/>} />
-        <Route path='/register' element={<Register/>} />
+        <Route path='/login' element={<Authen/>} />
+        <Route path='/register' element={<Authen register/>} />
         <Route path='/dashboard' element={<Dashboard/>} />
         <Route path='/projects' element={<Projects/>} />
       </Routes>
