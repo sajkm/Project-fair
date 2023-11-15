@@ -1,7 +1,8 @@
 import React from 'react'
 import { Navbar,Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-function Header() {
+
+function Header({insideDashboard}) {
   return (
     <div>
         <Navbar className="bg-success">
@@ -12,6 +13,9 @@ function Header() {
               Project Fair
             </Link>
             </Navbar.Brand>
+            { insideDashboard &&
+              <div className='btn btn-link ms-auto text-info fs-5 fw-bolder' >Logout <i class="fa-solid fa-arrow-up-from-bracket fa-rotate-90"></i></div>
+            }
           </Container>
         </Navbar>
     </div>
