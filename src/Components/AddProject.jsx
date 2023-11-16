@@ -1,16 +1,74 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { addprojectAPI } from "../Services/allAPI";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
-function AddProject() {
+function AddProject({reqHeader}) {
   const [show, setShow] = useState(false);
   const [projectDetails,setProjectDetails] = useState({
     title:"",languages:"",overview:"",github:"",website:"",projectImage:""
   })
+  const [preview,setPreview] = useState("")
+  const [token,setToken] = useState()
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false)
+    setProjectDetails({
+      title:"",languages:"",overview:"",github:"",website:"",projectImage:""
+    })
+    setPreview("")
+  };
   const handleShow = () => setShow(true);
-  console.log(projectDetails);
+  // console.log(projectDetails);
+  
+  useEffect(()=>{
+    if(projectDetails.projectImage){
+      setPreview(URL.createObjectURL(projectDetails.projectImage))
+    }
+  },[projectDetails.projectImage])
+
+  useEffect(()=>{
+    if(sessionStorage.getItem("token")){
+      setToken(sessionStorage.getItem("token"))
+    }else{
+      setToken("")
+    }
+  },[])
+
+  const handleAdd = async(e)=>{
+    e.preventDefault();
+    const {title,languages,overview,projectImage,github,website} = projectDetails
+    if(!title || !languages || !overview || !projectImage || !github || !website){
+      toast.info("Please fill the form completely!!!")
+    }else{
+      const reqBody = new FormData()
+      reqBody.append("title",title)
+      reqBody.append("languages",languages)
+      reqBody.append("overview",overview)
+      reqBody.append("github",github)
+      reqBody.append("website",website)
+      reqBody.append("projectImage",projectImage)
+
+      if(token){
+         reqHeader = {
+          "Content-Type":"multipart/form-data",
+          "Authorization":`Bearer ${token}`
+        }
+        
+      const result = await addprojectAPI(reqBody,reqHeader)
+      if(result.status===200){
+        console.log(result.data);
+      }else{
+        console.log(result);
+        console.log(result.response.data);
+      }
+      }
+      
+    }
+  }
+
 
   return (
     <>
@@ -18,18 +76,22 @@ function AddProject() {
         Add Project
       </Button>
 
-      <Modal show={show} centered size="lg" onHide={handleClose}>
+      <Modal show={show} centered size="lg" onHide={handleClose} keyboard={false}
+      backdrop="static">
         <Modal.Header closeButton>
           <Modal.Title>Project Details</Modal.Title>
         </Modal.Header>
         <Modal.Body >
           <div className="row">
-            <div className="col-lg-6 d-flex justify-content-center   ">
-              <img
-                className="img-fluid w-75  "
-                src="https://lirp.cdn-website.com/343f0986cb9d4bc5bc00d8a4a79b4156/dms3rep/multi/opt/1274512-placeholder-640w.png"
-                alt=""
-              />
+            <div className="col-lg-6 d-flex justify-content-center">
+              <label>
+                <input type="file" style={{display:'none'}} onChange={e=>setProjectDetails({...projectDetails,projectImage:e.target.files[0]})}/>
+                <img
+                  className="img-fluid w-75  "
+                  src={preview?preview:"https://lirp.cdn-website.com/343f0986cb9d4bc5bc00d8a4a79b4156/dms3rep/multi/opt/1274512-placeholder-640w.png"}
+                  alt=""
+                />
+              </label>
             </div>
             <div className="col-lg-6 pt-3">
               <input
@@ -70,11 +132,12 @@ function AddProject() {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Add Project
+          <Button variant="primary" onClick={handleAdd}>
+            Add
           </Button>
         </Modal.Footer>
       </Modal>
+      <ToastContainer position='top-right' autoClose={2000} theme="colored"/>
     </>
   );
 }
