@@ -1,11 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import { Col, Row } from 'react-bootstrap'
 import ProjectCard from '../Components/ProjectCard'
+import { allProjectsAPI } from '../Services/allAPI'
 
 
 
 function Projects() {
+  const [allProjects,setAllProjects] = useState([])
+  const getallProjets = async ()=>{
+    if(sessionStorage.getItem("token")){
+      const token = sessionStorage.getItem("token")
+      const reqHeader = {
+        "Content-Type":"application/json", "Authorization":`Bearer ${token}`
+      }
+      const result = await allProjectsAPI(reqHeader)
+      if(result.status===200){
+        setAllProjects(result.data)
+      }else{
+        console.log(result);
+      }
+    }
+  }
+
+  useEffect(()=>{
+    getallProjets()
+  },[])
   return (
     <>
       <Header/>
@@ -19,9 +39,11 @@ function Projects() {
            
             </div>
             <Row className='mt-5 container-fluid'>
+          {allProjects?.length>0?allProjects.map(project=>(
           <Col sm={12} md={6} lg={4}>
-          <ProjectCard/>
+          <ProjectCard project={project}/>
           </Col>
+          )):null}
         </Row>
         </div>
 

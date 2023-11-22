@@ -14,7 +14,7 @@ function Header({insideDashboard}) {
             </Link>
             </Navbar.Brand>
             { insideDashboard &&
-              <div className='btn btn-link ms-auto text-info fs-5 fw-bolder' >Logout <i class="fa-solid fa-arrow-up-from-bracket fa-rotate-90"></i></div>
+              <div className='btn btn-link ms-auto text-info fs-5 fw-bolder' style={{textDecoration:'none'}} >Logout <i class="fa-solid fa-arrow-up-from-bracket fa-rotate-90"></i></div>
             }
           </Container>
         </Navbar>

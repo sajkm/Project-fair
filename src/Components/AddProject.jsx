@@ -56,18 +56,26 @@ function AddProject({reqHeader}) {
           "Content-Type":"multipart/form-data",
           "Authorization":`Bearer ${token}`
         }
-        
+
+      
       const result = await addprojectAPI(reqBody,reqHeader)
       if(result.status===200){
         console.log(result.data);
+        handleClose()
+        alert("Project Added")
+
       }else{
         console.log(result);
-        console.log(result.response.data);
-      }
+        toast.warning(result.response.data);
+      
       }
       
     }
+  
   }
+}
+
+
 
 
   return (

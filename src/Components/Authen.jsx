@@ -35,7 +35,7 @@ function Authen({register}) {
 
     const handleLogin = async (e)=>{
       e.preventDefault()
-      const {email,password} = userData
+      const {email,password} = userData;
       if(!email || !password){
         toast.info("please fill the form completely!!!")
       }else{
@@ -55,7 +55,7 @@ function Authen({register}) {
       }
     }
   return (
-    <div style={{width:'100%', heught:'100vh'}} className='d-flex justify-content-center align-items-center'>
+    <div style={{width:'100%', height:'100vh'}} className='d-flex justify-content-center align-items-center'>
         <div className='w-75 container'>
             <Link to={'/'} style={{textDecoration:'none',color:'blue'}}><i className='fa-solid fa-arrow-left me-1'></i> Back to home</Link>
             <div className='card shadow p-5 bg-success'>

@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import { Card,Modal,Row,Col } from 'react-bootstrap'
 import Projectpic from '../Assets/photo-1572177812156-58036aae439c.avif'
-function ProjectCard() {
+import { BASE_URL } from '../Services/baseUrl';
+function ProjectCard({project}) {
 
     const [show, setShow] = useState(false);
 
@@ -9,13 +10,13 @@ function ProjectCard() {
   const handleShow = () => setShow(true);
   return (
     <>
-     <Card className='shadow mb-5 btn' onClick={handleShow}>
-      <Card.Img variant="top" src={Projectpic} />
+     {project&& <Card className='shadow mb-5 btn' onClick={handleShow}>
+      <Card.Img style={{height:"200px",width:"500px"}} variant="top" src={project?`${BASE_URL}/uploads/${project.projectImage}`:Projectpic} />
       <Card.Body>
         <Card.Title>Project Title</Card.Title>
       </Card.Body>
     </Card>
-
+     }         
     <Modal
         size='lg'
         show={show}
@@ -26,21 +27,21 @@ function ProjectCard() {
         <Modal.Body>
             <Row>
                 <Col md={6}>
-                <img style={{height:'200px'}} className='img-fluid' src={Projectpic} alt="Project Image" />
+                <img style={{height:'200px'}} className='img-fluid' src={project?`${BASE_URL}/uploads/${project.projectImage}`:Projectpic} alt="Project Image" />
                 </Col>
                 <Col md={6}>
-                    <h2>Project Title</h2>
-                    <p>Project Oveview : Lorem ipsum dolor sit amet consectetur adipisicing elit. Est consequatur necessitatibus distinctio magni eligendi repudiandae facilis expedita. Culpa cum nemo asperiores, soluta est doloribus voluptatibus obcaecati amet perspiciatis unde laudantium
+                    <h2>{project.title}</h2>
+                    <p>Project Oveview : <span className='fw-bolder'>{project.overview}</span>
                     </p>
-                    <p>Language Used : <span className='fw-bolder'>HTML,CSS,React</span></p>
+                    <p>Language Used : <span className='fw-bolder'>{project.languages}</span></p>
                 </Col>
             </Row>
             <div className='mt-3'>
-            <a href='https://github.com/sajkm/Project-fair' target='_blank' className='me-3 btn'><i className='fa-brands fa-github fa-2x'></i></a>
-            <a href='https://media-player-m04tem1kr-sajs-projects.vercel.app' target='_blank' className='me-3 btn'><i className='fa-solid fa-link fa-2x'></i></a>
+            <a href={project.github} target='_blank' className='me-3 btn'><i className='fa-brands fa-github fa-2x'></i></a>
+            <a href={project.website} target='_blank' className='me-3 btn'><i className='fa-solid fa-link fa-2x'></i></a>
             </div>
         </Modal.Body>
-      </Modal>
+        </Modal>
     </>
   )
 }
